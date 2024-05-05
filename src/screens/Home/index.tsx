@@ -1,20 +1,35 @@
-import React from 'react';
-import { AvatarImg, ButtonLabel, ButtonWrapper, Container, Header, Logo, Percentage, SectionTitleText, UpRightIcon } from "./styles";
+import { useState } from "react";
+import { SectionList } from "react-native";
+import { useNavigation } from '@react-navigation/native';
+import { randomUUID } from 'expo-crypto';
+
+import Animated from 'react-native-reanimated';
+
+import {
+  AvatarImg,
+  ButtonLabel,
+  ButtonWrapper,
+  Container,
+  Header,
+  Logo,
+  Percentage,
+  SectionTitleText,
+  UpRightIcon
+} from "./styles";
+
+import { TextHighlight } from "@components/TextHighlight";
+import { EmptyList } from '@components/EmptyList';
+import { CardMeal } from "@components/CardMeal";
+import { Button } from "@components/Button";
 
 import logoImg from '@assets/Logo.png';
 import avatarImg from '@assets/avatarImg.png'
-import { Button } from "@components/Button";
-import { TextHighlight } from "@components/TextHighlight";
-import { Plus } from "phosphor-react-native";
-import { useState } from "react";
-import { useTheme } from "styled-components";
 
-import { randomUUID } from 'expo-crypto';
-import { CardMeal } from "@components/CardMeal";
-import { ScrollView, SectionList, Text, View } from "react-native";
-import { getDateMonthAndYer, getHourfromDate } from "@utils/dateUtils";
 import { groupBy } from '@utils/arrayUtils';
-import { EmptyList } from '@components/EmptyList';
+import { getDateMonthAndYer, getHourfromDate } from "@utils/dateUtils";
+
+import { Plus } from "phosphor-react-native";
+import { useTheme } from "styled-components";
 
 
 // id: randomUUID()
@@ -53,6 +68,7 @@ export function Home() {
     { id: randomUUID(), name: 'X-tudo 3', description: 'Lanche gordo', date: new Date(2022, 7, 12, 20), isDiet: false },
   ]
 
+  const navigation = useNavigation();
   const { COLORS } = useTheme();
   const [dietList, setDietList] = useState<DietType[]>(initialData);
 
@@ -88,14 +104,20 @@ export function Home() {
         }} />
       </Header>
 
-      <Percentage>
-        <UpRightIcon size={24} color={COLORS.GREEN_DARK} />
-        <TextHighlight
-          title="90,86%"
-          subtitle="das refeições dentro da dieta"
-          type="title"
-        />
-      </Percentage>
+      <Animated.View
+        sharedTransitionTag="percentage">
+        <Percentage
+          onPress={() => { navigation.navigate('homeDetail') }}
+        >
+          <UpRightIcon size={24} color={COLORS.GREEN_DARK} />
+          <TextHighlight
+            title="90,86%"
+            subtitle="das refeições dentro da dieta"
+            type="title"
+          />
+        </Percentage>
+      </Animated.View>
+
 
       <ButtonWrapper>
         <ButtonLabel>Refeições</ButtonLabel>
