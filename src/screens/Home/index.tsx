@@ -119,12 +119,12 @@ export function Home() {
       </Animated.View>
 
 
-      <ButtonWrapper>
+      <ButtonWrapper >
         <ButtonLabel>Refeições</ButtonLabel>
         <Button
           text="Nova Refeição"
           icon={<Plus size={18} color={COLORS.WHITE} />}
-          onPress={() => { }}
+          onPress={() => { navigation.navigate('newMeal')}}
         />
       </ButtonWrapper>
 
@@ -135,6 +135,7 @@ export function Home() {
         sections={sectionList}
         showsVerticalScrollIndicator={false}
         initialNumToRender={8}
+        stickySectionHeadersEnabled={false}
         keyExtractor={({ id }, index) => id}
         contentContainerStyle={
           sectionList.length === 0 && {
@@ -145,13 +146,11 @@ export function Home() {
         }
         renderItem={({ item }) => {
           return (
-            // <View style={{ gap: 8 }}>
             <CardMeal
               hourText="20:00"
               titleText={item.name}
               isDiet={item.isDiet}
             />
-            // </View>
           )
         }}
         renderSectionHeader={({ section: { title } }) => (

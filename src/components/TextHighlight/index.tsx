@@ -1,3 +1,4 @@
+import { View } from "react-native";
 import { Subtitle, Title } from "./styles";
 
 type Props = {

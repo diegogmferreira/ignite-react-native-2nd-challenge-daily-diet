@@ -11,7 +11,7 @@ export const Container = styled(TouchableOpacity) <Props>`
   ${({ theme, type }) => css`
     flex-direction: row;
 
-    width: '100%';
+    width: 100%;
     min-height: 50px;
     max-height: 50px;
 
