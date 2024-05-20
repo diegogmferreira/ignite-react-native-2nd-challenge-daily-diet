@@ -24,7 +24,7 @@ export function Header({ title, color }: Props) {
       }}
     >
       <TouchableOpacity
-        onPress={() => { navigation.navigate('home') }}
+        onPress={() => { navigation.goBack() }}
         style={{
           position: 'absolute',
           top: 66,

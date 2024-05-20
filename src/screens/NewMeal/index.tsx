@@ -5,9 +5,21 @@ import { InputWithLabel } from "@components/Input";
 import { useState } from "react";
 import { DietSelect } from "@components/DietSelect";
 import { Button } from "@components/Button";
-import { Plus } from "phosphor-react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+
+type RouteParams = {
+  id?: string;
+}
 
 export function NewMeal() {
+  const navigation = useNavigation();
+  const route = useRoute();
+
+  const { id: mealId } = route?.params as RouteParams;
+
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+
   const [date, setDate] = useState('');
   const [hour, setHour] = useState('');
   const [option, setOption] = useState<'YES' | 'NO' | ''>('');
@@ -15,13 +27,16 @@ export function NewMeal() {
   return (
     <Container>
       <Header
-        title="Nova refeição"
+        title={!mealId ? "Nova refeição" : "Editar refeição"}
         color="GRAY"
       />
 
       <Main>
         <InputWithLabel
           label="Nome"
+          inputProps={{
+            value: name
+          }}
         />
 
         <InputWithLabel
@@ -31,8 +46,9 @@ export function NewMeal() {
             numberOfLines: 10,
             style: {
               height: 142,
-              textAlignVertical: 'top'
-            }
+              textAlignVertical: 'top',
+            },
+            value: description,
           }}
         />
 
@@ -69,9 +85,6 @@ export function NewMeal() {
           option={option}
           setOption={setOption}
         />
-
-
-
       </Main>
 
       <View
@@ -84,8 +97,8 @@ export function NewMeal() {
       >
         <Button
           text="Cadastrar refeição"
+          onPress={() => navigation.navigate('confirmation', { isDiet: false })}
         />
-
       </View>
 
     </Container>

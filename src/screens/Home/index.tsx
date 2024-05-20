@@ -23,10 +23,9 @@ import { CardMeal } from "@components/CardMeal";
 import { Button } from "@components/Button";
 
 import logoImg from '@assets/Logo.png';
-import avatarImg from '@assets/avatarImg.png'
 
 import { groupBy } from '@utils/arrayUtils';
-import { getDateMonthAndYer, getHourfromDate } from "@utils/dateUtils";
+import { getDateMonthAndYer, getHourFromDate } from "@utils/dateUtils";
 
 import { Plus } from "phosphor-react-native";
 import { useTheme } from "styled-components";
@@ -80,7 +79,7 @@ export function Home() {
       name: diet.name,
       description: diet.description,
       date: getDateMonthAndYer(diet.date),
-      hour: getHourfromDate(diet.date),
+      hour: getHourFromDate(diet.date),
       isDiet: diet.isDiet
     }
   });
@@ -97,34 +96,28 @@ export function Home() {
     <Container>
       <Header>
         <Logo source={logoImg} />
-        <AvatarImg source={avatarImg} style={{
+        <AvatarImg source={{ uri: 'https://github.com/diegogmferreira.png' }} style={{
           borderWidth: 2,
           borderColor: '#333638',
           borderRadius: 100,
         }} />
       </Header>
 
-      <Animated.View
-        sharedTransitionTag="percentage">
-        <Percentage
-          onPress={() => { navigation.navigate('homeDetail') }}
-        >
-          <UpRightIcon size={24} color={COLORS.GREEN_DARK} />
-          <TextHighlight
-            title="90,86%"
-            subtitle="das refeições dentro da dieta"
-            type="title"
-          />
-        </Percentage>
-      </Animated.View>
-
+      <Percentage onPress={() => { navigation.navigate('homeDetail') }}>
+        <UpRightIcon size={24} color={COLORS.GREEN_DARK} />
+        <TextHighlight
+          title="90,86%"
+          subtitle="das refeições dentro da dieta"
+          type="title"
+        />
+      </Percentage>
 
       <ButtonWrapper >
         <ButtonLabel>Refeições</ButtonLabel>
         <Button
           text="Nova Refeição"
           icon={<Plus size={18} color={COLORS.WHITE} />}
-          onPress={() => { navigation.navigate('newMeal')}}
+          onPress={() => { navigation.navigate('newMeal', { id: null }) }}
         />
       </ButtonWrapper>
 
@@ -150,6 +143,7 @@ export function Home() {
               hourText="20:00"
               titleText={item.name}
               isDiet={item.isDiet}
+              onPress={() => navigation.navigate('viewMeal', { id: item.id })}
             />
           )
         }}
@@ -158,7 +152,7 @@ export function Home() {
         )}
         ListEmptyComponent={() => (
           <EmptyList
-            message='Não há refeições registrada.'
+            message='Não há refeições registradas.'
           />
         )}
       />
